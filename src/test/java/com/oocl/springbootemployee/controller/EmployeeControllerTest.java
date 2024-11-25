@@ -37,7 +37,7 @@ public class EmployeeControllerTest {
     JacksonTester<List<Employee>> jsonList;
 
     @BeforeEach
-    void setup(){
+    void setup() {
         employeeRepository.setEmployees(new ArrayList<>());
         employeeRepository.getEmployees().add(new Employee(1, "Tony", 22, Gender.M, 500.0));
         employeeRepository.getEmployees().add(new Employee(2, "Johnson", 22, Gender.M, 500.0));
@@ -134,7 +134,7 @@ public class EmployeeControllerTest {
 
         //Given
         String updateJson = "{\n" +
-                "        \"id\": \"1\",\n" +
+                "        \"id\": 1,\n" +
                 "        \"age\": 23,\n" +
                 "        \"salary\": 600.0\n" +
                 "    }";
@@ -156,6 +156,17 @@ public class EmployeeControllerTest {
 
     }
 
+    @Test
+    void should_return_void_when_delete_employee_by_id_given_employee_id() throws Exception {
 
+        //Given
+
+        //When
+        //Then
+        client.perform(MockMvcRequestBuilders.delete("/employees/{id}", "1")
+                )
+                .andExpect(MockMvcResultMatchers.status().isNoContent())
+        ;
+    }
 
 }
