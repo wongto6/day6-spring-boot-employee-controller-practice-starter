@@ -51,7 +51,6 @@ public class EmployeeControllerTest {
     void should_return_employees_when_get_all_given_employees() throws Exception {
         //Given
         List<Employee> expectedEmployees = employeeRepository.getEmployees();
-        String expectedJsonList = jsonList.write(expectedEmployees).getJson();
 
         //When
         //Then
