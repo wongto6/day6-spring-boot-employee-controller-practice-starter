@@ -42,7 +42,14 @@ public class EmployeeController {
     }
 
     @PutMapping()
-    public Employee createEmployee(@RequestBody UpdateAgeSalaryById updateAgeSalaryById) {
+    public Employee putEmployee(@RequestBody UpdateAgeSalaryById updateAgeSalaryById) {
         return employeeRepository.updateEmployeeAgeSalaryById(updateAgeSalaryById);
     }
+
+    @DeleteMapping(path="/{id}")
+    @ResponseStatus(code = HttpStatus.NO_CONTENT)
+    public void deleteEmployee(@PathVariable int id) {
+        employeeRepository.deleteEmployee(id);
+    }
+
 }
