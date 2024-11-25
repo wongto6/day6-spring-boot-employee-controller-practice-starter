@@ -2,6 +2,8 @@ package com.oocl.springbootemployee.entity;
 
 import com.oocl.springbootemployee.Gender;
 
+import java.util.Objects;
+
 public class Employee {
 
     private final int id;
@@ -54,4 +56,16 @@ public class Employee {
         this.salary = salary;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Employee employee = (Employee) o;
+        return id == employee.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
+    }
 }
