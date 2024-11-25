@@ -3,6 +3,7 @@ package com.oocl.springbootemployee.controller;
 import com.oocl.springbootemployee.Gender;
 import com.oocl.springbootemployee.entity.Employee;
 import com.oocl.springbootemployee.repository.EmployeeRepository;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.json.AutoConfigureJsonTesters;
@@ -14,6 +15,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -33,6 +35,15 @@ public class EmployeeControllerTest {
     JacksonTester<Employee> json;
     @Autowired
     JacksonTester<List<Employee>> jsonList;
+
+    @BeforeEach
+    void setup(){
+        employeeRepository.setEmployees(new ArrayList<>());
+        employeeRepository.getEmployees().add(new Employee(1, "Tony", 22, Gender.M, 500.0));
+        employeeRepository.getEmployees().add(new Employee(2, "Johnson", 22, Gender.M, 500.0));
+        employeeRepository.getEmployees().add(new Employee(3, "Angus", 22, Gender.M, 500.0));
+        employeeRepository.getEmployees().add(new Employee(4, "Emily", 22, Gender.F, 500.0));
+    }
 
     @Test
     void should_return_employees_when_get_all_given_employees() throws Exception {
@@ -116,8 +127,35 @@ public class EmployeeControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.salary").value("500.0"))
         ;
 
+    }
+
+    @Test
+    void should_return_id_when_update_employee_given_employee_age_salary() throws Exception {
+
+        //Given
+        String updateJson = "{\n" +
+                "        \"id\": \"1\",\n" +
+                "        \"age\": 23,\n" +
+                "        \"salary\": 600.0\n" +
+                "    }";
+
+
+        //When
+        //Then
+        client.perform(MockMvcRequestBuilders.put("/employees")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(updateJson)
+                )
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.id").value("1"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.name").value("Tony"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.age").value("23"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.gender").value(Gender.M.name()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.salary").value("600.0"))
+        ;
 
     }
+
 
 
 }

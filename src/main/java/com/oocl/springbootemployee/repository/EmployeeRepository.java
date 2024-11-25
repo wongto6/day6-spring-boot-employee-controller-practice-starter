@@ -2,6 +2,7 @@ package com.oocl.springbootemployee.repository;
 
 import com.oocl.springbootemployee.Gender;
 import com.oocl.springbootemployee.entity.Employee;
+import com.oocl.springbootemployee.entity.UpdateAgeSalaryById;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -17,6 +18,10 @@ public class EmployeeRepository {
         employees.add(new Employee(2, "Johnson", 22, Gender.M, 500.0));
         employees.add(new Employee(3, "Angus", 22, Gender.M, 500.0));
         employees.add(new Employee(4, "Emily", 22, Gender.F, 500.0));
+    }
+
+    public void setEmployees(List<Employee> employees) {
+        this.employees = employees;
     }
 
     public List<Employee> getEmployees() {
@@ -39,6 +44,13 @@ public class EmployeeRepository {
     public Employee createEmployee(Employee employee) {
         employee.setId(employees.size() + 1);
         employees.add(employee);
+        return employee;
+    }
+
+    public Employee updateEmployeeAgeSalaryById(UpdateAgeSalaryById updateAgeSalaryById) {
+        Employee employee = getEmployeeById(updateAgeSalaryById.getId());
+        employee.setAge(updateAgeSalaryById.getAge());
+        employee.setSalary(updateAgeSalaryById.getSalary());
         return employee;
     }
 
