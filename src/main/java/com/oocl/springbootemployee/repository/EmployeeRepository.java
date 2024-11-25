@@ -30,4 +30,16 @@ public class EmployeeRepository {
                 .orElseThrow();
     }
 
+    public List<Employee> getEmployeesByGender(Gender gender) {
+        return employees.stream()
+                .filter(employee -> employee.getGender() == gender)
+                .toList();
+    }
+
+    public Employee createEmployee(Employee employee) {
+        employee.setId(employees.size() + 1);
+        employees.add(employee);
+        return employee;
+    }
+
 }

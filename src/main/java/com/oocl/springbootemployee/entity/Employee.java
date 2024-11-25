@@ -6,7 +6,7 @@ import java.util.Objects;
 
 public class Employee {
 
-    private final int id;
+    private int id;
     private String name;
     private int age;
     private Gender gender;
@@ -26,6 +26,10 @@ public class Employee {
 
     public String getName() {
         return name;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public void setName(String name) {
