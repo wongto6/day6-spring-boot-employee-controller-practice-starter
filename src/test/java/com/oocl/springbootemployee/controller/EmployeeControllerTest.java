@@ -3,32 +3,20 @@ package com.oocl.springbootemployee.controller;
 import com.oocl.springbootemployee.Gender;
 import com.oocl.springbootemployee.entity.Employee;
 import com.oocl.springbootemployee.repository.EmployeeRepository;
-import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.json.AutoConfigureJson;
 import org.springframework.boot.test.autoconfigure.json.AutoConfigureJsonTesters;
-import org.springframework.boot.test.autoconfigure.json.JsonTest;
-import org.springframework.boot.test.autoconfigure.json.JsonTestersAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.json.BasicJsonTester;
 import org.springframework.boot.test.json.JacksonTester;
-import org.springframework.boot.test.json.JsonContent;
-import org.springframework.boot.test.json.JsonbTester;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MockMvcBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-import java.util.ArrayList;
 import java.util.List;
 
-import static org.hamcrest.Matchers.hasSize;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -50,16 +38,17 @@ public class EmployeeControllerTest {
     void should_return_employees_when_get_all_given_employees() throws Exception {
         //Given
         List<Employee> expectedEmployees = employeeRepository.getEmployees();
-        String expectedJson = jsonList.write(expectedEmployees).getJson();
+        String expectedJsonList = jsonList.write(expectedEmployees).getJson();
 
         //When
         //Then
         String resultJson = client.perform(MockMvcRequestBuilders.get("/employees"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
                 .andReturn()
                 .getResponse()
                 .getContentAsString();
 
-        assertThat(resultJson).isEqualTo(expectedJson);
+        assertThat(resultJson).isEqualTo(expectedJsonList);
     }
 
     @Test
@@ -72,6 +61,7 @@ public class EmployeeControllerTest {
         //When
         //Then
         String resultJson = client.perform(MockMvcRequestBuilders.get("/employees/" + givenEmployeeId))
+                .andExpect(MockMvcResultMatchers.status().isOk())
                 .andReturn()
                 .getResponse()
                 .getContentAsString();
@@ -83,18 +73,19 @@ public class EmployeeControllerTest {
 
         //Given
         List<Employee> expectedEmployees = employeeRepository.getEmployeesByGender(Gender.M);
+        String expectedJsonList = jsonList.write(expectedEmployees).getJson();
 
         //When
         //Then
-        client.perform(MockMvcRequestBuilders.get("/employees")
+
+        String resultJson = client.perform(MockMvcRequestBuilders.get("/employees")
                         .param("gender", Gender.M.name()))
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$", hasSize(expectedEmployees.size())))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].name").value(expectedEmployees.get(0).getName()))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[1].name").value(expectedEmployees.get(1).getName()))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[2].name").value(expectedEmployees.get(2).getName()))
-        ;
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
 
+        assertThat(resultJson).isEqualTo(expectedJsonList);
     }
 
     @Test
@@ -107,6 +98,7 @@ public class EmployeeControllerTest {
                 "        \"gender\": \"M\",\n" +
                 "        \"salary\": 500.0\n" +
                 "    }";
+
 
         //When
         //Then
@@ -121,6 +113,7 @@ public class EmployeeControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.gender").value(Gender.M.name()))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.salary").value("500.0"))
         ;
+
 
     }
 
