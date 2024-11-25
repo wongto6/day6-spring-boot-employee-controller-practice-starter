@@ -35,6 +35,11 @@ public class EmployeeController {
         return employeeRepository.getEmployeesByGender(gender);
     }
 
+    @GetMapping(params = {"page", "size"})
+    public List<Employee> employeesByPage(@RequestParam Integer page, @RequestParam Integer size) {
+        return employeeRepository.getEmployeesByPage(page, size);
+    }
+
     @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)
     public Employee createEmployee(@RequestBody Employee employee) {

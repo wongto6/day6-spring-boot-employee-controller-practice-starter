@@ -172,17 +172,37 @@ public class EmployeeControllerTest {
     }
 
     @Test
-    void should_return_employees_by_page_when_get_by_page_given_page_size() throws Exception {
+    void should_return_employees_by_page_when_get_by_page_given_page2_size3() throws Exception {
 
         //Given
-        List<Employee> expectedEmployees = employeeRepository.getEmployeesByPage(1, 3);
+        List<Employee> expectedEmployees = employeeRepository.getEmployeesByPage(2, 3);
         String expectedJsonList = jsonList.write(expectedEmployees).getJson();
 
         //When
         //Then
 
         String resultJson = client.perform(MockMvcRequestBuilders.get("/employees")
-                        .param("page", "1").param("size", "3"))
+                        .param("page", "2").param("size", "3"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
+
+        assertThat(resultJson).isEqualTo(expectedJsonList);
+    }
+
+    @Test
+    void should_return_employees_by_page_when_get_by_page_given_page1_size5() throws Exception {
+
+        //Given
+        List<Employee> expectedEmployees = employeeRepository.getEmployeesByPage(2, 3);
+        String expectedJsonList = jsonList.write(expectedEmployees).getJson();
+
+        //When
+        //Then
+
+        String resultJson = client.perform(MockMvcRequestBuilders.get("/employees")
+                        .param("page", "2").param("size", "3"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andReturn()
                 .getResponse()

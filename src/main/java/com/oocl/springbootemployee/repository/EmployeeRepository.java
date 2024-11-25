@@ -58,4 +58,8 @@ public class EmployeeRepository {
         Employee employee = getEmployeeById(id);
         employees.remove(employee);
     }
+
+    public List<Employee> getEmployeesByPage(int page, int size) {
+        return employees.subList((page - 1) * size, (page) * size);
+    }
 }
