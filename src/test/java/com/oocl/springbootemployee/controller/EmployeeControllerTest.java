@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -161,13 +162,17 @@ public class EmployeeControllerTest {
     void should_return_void_when_delete_employee_by_id_given_employee_id() throws Exception {
 
         //Given
-
+        int employeeId = 1;
         //When
         //Then
-        client.perform(MockMvcRequestBuilders.delete("/employees/{id}", "1")
+        client.perform(MockMvcRequestBuilders.delete("/employees/{id}", employeeId)
                 )
                 .andExpect(MockMvcResultMatchers.status().isNoContent())
         ;
+
+        assertThrows(RuntimeException.class, () -> employeeRepository.getEmployeeById(employeeId));
+
+
     }
 
     @Test
