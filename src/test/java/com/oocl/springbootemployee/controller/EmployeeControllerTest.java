@@ -48,7 +48,9 @@ public class EmployeeControllerTest {
                 .getResponse()
                 .getContentAsString();
 
-        assertThat(resultJson).isEqualTo(expectedJsonList);
+        assertThat(jsonList.parse(resultJson).getObject())
+                .usingRecursiveComparison()
+                .isEqualTo(expectedEmployees);
     }
 
     @Test
@@ -56,7 +58,6 @@ public class EmployeeControllerTest {
         //Given
         int givenEmployeeId = 1;
         Employee expectedEmployee = employeeRepository.getEmployeeById(givenEmployeeId);
-        String expectedJson = json.write(expectedEmployee).getJson();
 
         //When
         //Then
@@ -65,7 +66,8 @@ public class EmployeeControllerTest {
                 .andReturn()
                 .getResponse()
                 .getContentAsString();
-        assertThat(resultJson).isEqualTo(expectedJson);
+
+        assertThat(json.parseObject(resultJson)).isEqualTo(expectedEmployee);
     }
 
     @Test
