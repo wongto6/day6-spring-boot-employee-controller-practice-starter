@@ -43,6 +43,8 @@ public class EmployeeControllerTest {
         employeeRepository.getEmployees().add(new Employee(2, "Johnson", 22, Gender.M, 500.0));
         employeeRepository.getEmployees().add(new Employee(3, "Angus", 22, Gender.M, 500.0));
         employeeRepository.getEmployees().add(new Employee(4, "Emily", 22, Gender.F, 500.0));
+        employeeRepository.getEmployees().add(new Employee(5, "Emily", 22, Gender.F, 500.0));
+        employeeRepository.getEmployees().add(new Employee(6, "Emily", 22, Gender.F, 500.0));
     }
 
     @Test
@@ -167,6 +169,26 @@ public class EmployeeControllerTest {
                 )
                 .andExpect(MockMvcResultMatchers.status().isNoContent())
         ;
+    }
+
+    @Test
+    void should_return_employees_by_page_when_get_by_page_given_page_size() throws Exception {
+
+        //Given
+        List<Employee> expectedEmployees = employeeRepository.getEmployeesByPage(1, 3);
+        String expectedJsonList = jsonList.write(expectedEmployees).getJson();
+
+        //When
+        //Then
+
+        String resultJson = client.perform(MockMvcRequestBuilders.get("/employees")
+                        .param("page", "1").param("size", "3"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
+
+        assertThat(resultJson).isEqualTo(expectedJsonList);
     }
 
 }
