@@ -4,7 +4,7 @@ import com.oocl.springbootemployee.Gender;
 
 public class Employee {
 
-    private int id;
+    private final int id;
     private String name;
     private int age;
     private Gender gender;
