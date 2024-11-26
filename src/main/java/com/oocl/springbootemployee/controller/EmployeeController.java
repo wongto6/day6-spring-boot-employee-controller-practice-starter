@@ -47,8 +47,8 @@ public class EmployeeController {
     }
 
     @PutMapping()
-    public Employee putEmployee(@RequestBody UpdateAgeSalaryById updateAgeSalaryById) {
-        return employeeRepository.updateEmployeeAgeSalaryById(updateAgeSalaryById);
+    public Employee putEmployee(@RequestBody UpdateAgeSalaryVo updateAgeSalaryVo) {
+        return employeeRepository.updateEmployeeAgeSalaryById(updateAgeSalaryVo);
     }
 
     @DeleteMapping(path="/{id}")
