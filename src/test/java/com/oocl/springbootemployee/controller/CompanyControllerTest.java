@@ -1,6 +1,5 @@
 package com.oocl.springbootemployee.controller;
 
-import com.oocl.springbootemployee.Gender;
 import com.oocl.springbootemployee.entity.Company;
 import com.oocl.springbootemployee.entity.Employee;
 import com.oocl.springbootemployee.repository.CompanyRepository;
@@ -33,9 +32,7 @@ public class CompanyControllerTest {
     private EmployeeRepository employeeRepository;
 
     @Autowired
-    JacksonTester<Employee> json;
-    @Autowired
-    JacksonTester<List<Company>> jsonList;
+    JacksonTester<List<Company>> companyJacksonTesterList;
     @Autowired
     private CompanyRepository companyRepository;
 
@@ -61,7 +58,7 @@ public class CompanyControllerTest {
                 .getResponse()
                 .getContentAsString();
 
-        assertThat(jsonList.parse(resultJson).getObject())
+        assertThat(companyJacksonTesterList.parse(resultJson).getObject())
                 .usingRecursiveComparison()
                 .isEqualTo(expectedCompanies);
     }
