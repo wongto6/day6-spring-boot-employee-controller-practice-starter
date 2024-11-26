@@ -61,6 +61,7 @@ public class EmployeeControllerTest {
                 .getResponse()
                 .getContentAsString();
 
+        //  todo: change to use better names
         assertThat(jsonList.parse(resultJson).getObject())
                 .usingRecursiveComparison()
                 .isEqualTo(expectedEmployees);
@@ -95,6 +96,26 @@ public class EmployeeControllerTest {
 
         String resultJson = client.perform(MockMvcRequestBuilders.get("/employees")
                         .param("gender", Gender.M.name()))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
+
+        assertThat(resultJson).isEqualTo(expectedJsonList);
+    }
+
+    @Test
+    void should_return_female_when_get_by_gender_given_female() throws Exception {
+
+        //Given
+        List<Employee> expectedEmployees = employeeRepository.getEmployeesByGender(Gender.F);
+        String expectedJsonList = jsonList.write(expectedEmployees).getJson();
+
+        //When
+        //Then
+
+        String resultJson = client.perform(MockMvcRequestBuilders.get("/employees")
+                        .param("gender", Gender.F.name()))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andReturn()
                 .getResponse()
