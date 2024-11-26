@@ -2,7 +2,8 @@ package com.oocl.springbootemployee.repository;
 
 import com.oocl.springbootemployee.Gender;
 import com.oocl.springbootemployee.entity.Employee;
-import com.oocl.springbootemployee.entity.UpdateAgeSalaryById;
+import com.oocl.springbootemployee.entity.UpdateAgeSalaryVo;
+import com.oocl.springbootemployee.entity.UpdateAgeSalaryVo;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -47,10 +48,10 @@ public class EmployeeRepository {
         return employee;
     }
 
-    public Employee updateEmployeeAgeSalaryById(UpdateAgeSalaryById updateAgeSalaryById) {
-        Employee employee = getEmployeeById(updateAgeSalaryById.getId());
-        employee.setAge(updateAgeSalaryById.getAge());
-        employee.setSalary(updateAgeSalaryById.getSalary());
+    public Employee updateEmployeeAgeSalaryById(UpdateAgeSalaryVo updateAgeSalaryVo) {
+        Employee employee = getEmployeeById(updateAgeSalaryVo.getId());
+        employee.setAge(updateAgeSalaryVo.getAge());
+        employee.setSalary(updateAgeSalaryVo.getSalary());
         return employee;
     }
 

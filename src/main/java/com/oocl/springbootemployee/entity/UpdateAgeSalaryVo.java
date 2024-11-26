@@ -1,8 +1,6 @@
 package com.oocl.springbootemployee.entity;
 
-import com.oocl.springbootemployee.Gender;
-
-public class UpdateAgeSalaryById {
+public class UpdateAgeSalaryVo {
 
     private int id;
 

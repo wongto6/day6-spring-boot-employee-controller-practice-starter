@@ -2,7 +2,7 @@ package com.oocl.springbootemployee.controller;
 
 import com.oocl.springbootemployee.Gender;
 import com.oocl.springbootemployee.entity.Employee;
-import com.oocl.springbootemployee.entity.UpdateAgeSalaryById;
+import com.oocl.springbootemployee.entity.UpdateAgeSalaryVo;
 import com.oocl.springbootemployee.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
