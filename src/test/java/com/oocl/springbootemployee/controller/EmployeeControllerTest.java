@@ -61,7 +61,6 @@ public class EmployeeControllerTest {
                 .getResponse()
                 .getContentAsString();
 
-        //  todo: change to use better names
         assertThat(employeeJacksonTesterList.parse(resultJson).getObject())
                 .usingRecursiveComparison()
                 .isEqualTo(expectedEmployees);
